@@ -111,7 +111,7 @@ export async function fetchProducts(): Promise<ProductWithVariants[]> {
 }
 
 export async function saveProduct(input: {
-  id?: string;
+  id?: string | undefined;
   name: string;
   category: string;
   cost: number;
@@ -257,7 +257,16 @@ export async function fetchCustomers(): Promise<Customer[]> {
   return unwrap<Customer[]>(res);
 }
 
-export async function saveCustomer(input: Partial<Customer> & { name: string }) {
+export async function saveCustomer(input: {
+  id?: string | undefined;
+  name: string;
+  phone?: string | null;
+  instagram?: string | null;
+  email?: string | null;
+  cpf?: string | null;
+  birthday?: string | null;
+  notes?: string | null;
+}) {
   const payload = {
     name: input.name,
     phone: input.phone || null,
