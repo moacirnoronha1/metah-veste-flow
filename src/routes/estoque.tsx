@@ -11,7 +11,6 @@ import {
   Modal,
   Panel,
   SectionTitle,
-  SelectInput,
   Tag,
   TextInput,
 } from "@/components/kit";
@@ -474,10 +473,6 @@ function EstoquePage() {
           </div>
         </div>
       </Modal>
-
-      <div className="hidden">
-        <SelectInput />
-      </div>
     </AppShell>
   );
 }
