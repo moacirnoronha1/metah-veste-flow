@@ -283,7 +283,13 @@ function EstoquePage() {
                             price: String(p.price),
                             low_stock_threshold: String(p.low_stock_threshold),
                             active: p.active,
+                            description: p.description ?? "",
+                            images: p.images ?? [],
+                            show_in_catalog: p.show_in_catalog,
+                            featured: p.featured,
+                            is_new: p.is_new,
                           });
+
                           setFormOpen(true);
                         }}
                       >
