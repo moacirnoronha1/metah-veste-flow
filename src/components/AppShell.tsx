@@ -1,13 +1,16 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { adminLogout } from "@/lib/admin.functions";
 
 const NAV = [
-  { to: "/", label: "Início" },
-  { to: "/vendas", label: "Vendas" },
-  { to: "/estoque", label: "Estoque" },
-  { to: "/clientes", label: "Clientes" },
-  { to: "/relatorios", label: "Relatos" },
+  { to: "/admin", label: "Início" },
+  { to: "/admin/vendas", label: "Vendas" },
+  { to: "/admin/pedidos", label: "Pedidos" },
+  { to: "/admin/estoque", label: "Estoque" },
+  { to: "/admin/clientes", label: "Clientes" },
+  { to: "/admin/relatorios", label: "Relatos" },
 ] as const;
 
 export function AppShell({
@@ -20,6 +23,14 @@ export function AppShell({
   children: ReactNode;
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
+  const qc = useQueryClient();
+
+  async function sair() {
+    await adminLogout();
+    qc.clear();
+    navigate({ to: "/entrar", replace: true });
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-bg text-ink">
@@ -37,15 +48,26 @@ export function AppShell({
             </h1>
             {subtitle ? <p className="mt-1 font-mono text-[12px] text-muted">{subtitle}</p> : null}
           </div>
-          <div className="grid size-11 place-items-center rounded-full bg-gradient-to-br from-glow to-gold font-display text-sm font-bold text-card ring-2 ring-card">
-            MV
+          <div className="flex items-center gap-2">
+            <Link
+              to="/admin/config"
+              className="rounded-full px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted ring-1 ring-line"
+            >
+              Config
+            </Link>
+            <button
+              onClick={sair}
+              className="rounded-full px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-bad ring-1 ring-line"
+            >
+              Sair
+            </button>
           </div>
         </header>
         <main>{children}</main>
       </div>
 
       <nav className="sticky bottom-0 mt-auto border-t border-line bg-bg/95 px-3 pt-2 pb-4 backdrop-blur">
-        <div className="mx-auto grid max-w-3xl grid-cols-5 gap-1">
+        <div className="mx-auto grid max-w-3xl grid-cols-6 gap-1">
           {NAV.map((item, i) => {
             const active = pathname === item.to;
             return (

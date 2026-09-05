@@ -7,7 +7,7 @@ import { Btn, EmptyState, Field, Modal, Panel, Tag, TextArea, TextInput } from "
 import { deleteCustomer, fetchCustomers, fetchSales, saveCustomer } from "@/lib/api";
 import { brl, dateLabel } from "@/lib/format";
 
-export const Route = createFileRoute("/clientes")({
+export const Route = createFileRoute("/admin/clientes")({
   head: () => ({
     meta: [
       { title: "Clientes — Metah Veste" },

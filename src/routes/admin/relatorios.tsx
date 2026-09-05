@@ -6,7 +6,7 @@ import { EmptyState, Field, Panel, SectionTitle, Tag, TextInput } from "@/compon
 import { fetchProducts, fetchSales } from "@/lib/api";
 import { PAYMENT_LABELS, brl } from "@/lib/format";
 
-export const Route = createFileRoute("/relatorios")({
+export const Route = createFileRoute("/admin/relatorios")({
   head: () => ({
     meta: [
       { title: "Relatórios — Metah Veste" },

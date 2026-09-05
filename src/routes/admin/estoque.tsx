@@ -12,6 +12,7 @@ import {
   Panel,
   SectionTitle,
   Tag,
+  TextArea,
   TextInput,
 } from "@/components/kit";
 import {
@@ -26,8 +27,9 @@ import {
   type Variant,
 } from "@/lib/api";
 import { brl, dateTimeLabel } from "@/lib/format";
+import { uploadImage } from "@/lib/upload";
 
-export const Route = createFileRoute("/estoque")({
+export const Route = createFileRoute("/admin/estoque")({
   head: () => ({
     meta: [
       { title: "Produtos e estoque — Metah Veste" },
@@ -54,7 +56,13 @@ const emptyProduct = {
   price: "",
   low_stock_threshold: "3",
   active: true,
+  description: "",
+  images: [] as string[],
+  show_in_catalog: true,
+  featured: false,
+  is_new: false,
 };
+
 
 function EstoquePage() {
   const qc = useQueryClient();
@@ -65,6 +73,7 @@ function EstoquePage() {
   const [search, setSearch] = useState("");
   const [form, setForm] = useState(emptyProduct);
   const [formOpen, setFormOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [variantFor, setVariantFor] = useState<ProductWithVariants | null>(null);
   const [variantForm, setVariantForm] = useState({ size: "M", color: "", quantity: "0" });
   const [moveFor, setMoveFor] = useState<{ product: ProductWithVariants; variant: Variant } | null>(
@@ -91,7 +100,13 @@ function EstoquePage() {
         price: Number(form.price) || 0,
         low_stock_threshold: Number(form.low_stock_threshold) || 0,
         active: form.active,
+        description: form.description.trim() || null,
+        images: form.images,
+        show_in_catalog: form.show_in_catalog,
+        featured: form.featured,
+        is_new: form.is_new,
       }),
+
     onSuccess: () => {
       toast.success(form.id ? "Produto atualizado" : "Produto cadastrado");
       setFormOpen(false);
@@ -277,7 +292,13 @@ function EstoquePage() {
                             price: String(p.price),
                             low_stock_threshold: String(p.low_stock_threshold),
                             active: p.active,
+                            description: p.description ?? "",
+                            images: p.images ?? [],
+                            show_in_catalog: p.show_in_catalog,
+                            featured: p.featured,
+                            is_new: p.is_new,
                           });
+
                           setFormOpen(true);
                         }}
                       >
@@ -373,6 +394,83 @@ function EstoquePage() {
               onChange={(e) => setForm({ ...form, low_stock_threshold: e.target.value })}
             />
           </Field>
+          <Field label="Descrição para o catálogo">
+            <TextArea
+              value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+            />
+          </Field>
+          <Field label="Fotos do produto">
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              className="w-full text-[11px] text-muted"
+              onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                const files = [...(e.target.files ?? [])];
+                e.target.value = "";
+                if (files.length === 0) return;
+                setUploading(true);
+                try {
+                  const urls: string[] = [];
+                  for (const file of files) urls.push(await uploadImage(file));
+                  setForm((f) => ({ ...f, images: [...f.images, ...urls] }));
+                  toast.success("Fotos enviadas.");
+                } catch (err) {
+                  toast.error((err as Error).message);
+                } finally {
+                  setUploading(false);
+                }
+              }}
+            />
+          </Field>
+          {uploading ? <p className="font-mono text-[10px] text-muted">Enviando fotos...</p> : null}
+          {form.images.length > 0 ? (
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {form.images.map((img) => (
+                <div key={img} className="relative shrink-0">
+                  <img
+                    src={img}
+                    alt="Foto do produto"
+                    className="size-16 rounded-xl object-cover ring-1 ring-line"
+                  />
+                  <button
+                    onClick={() =>
+                      setForm((f) => ({ ...f, images: f.images.filter((i) => i !== img) }))
+                    }
+                    className="absolute -top-1.5 -right-1.5 grid size-5 place-items-center rounded-full bg-bad text-[10px] text-card"
+                    aria-label="Remover foto"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : null}
+          <div className="flex flex-wrap gap-1.5">
+            <Chip
+              tone="glow"
+              active={form.show_in_catalog}
+              onClick={() => setForm({ ...form, show_in_catalog: !form.show_in_catalog })}
+            >
+              No catálogo
+            </Chip>
+            <Chip
+              tone="glow"
+              active={form.is_new}
+              onClick={() => setForm({ ...form, is_new: !form.is_new })}
+            >
+              Lançamento
+            </Chip>
+            <Chip
+              tone="glow"
+              active={form.featured}
+              onClick={() => setForm({ ...form, featured: !form.featured })}
+            >
+              Destaque
+            </Chip>
+          </div>
+
           <div className="flex gap-2 pt-1">
             <Btn
               className="flex-1"
