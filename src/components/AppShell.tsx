@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { adminLogout } from "@/lib/admin.functions";
+import { Logo } from "@/components/Logo";
 
 const NAV = [
   { to: "/admin", label: "Início" },
@@ -35,15 +36,10 @@ export function AppShell({
   return (
     <div className="flex min-h-screen flex-col bg-bg text-ink">
       <div className="mx-auto w-full max-w-3xl flex-1 pb-28">
-        <header className="flex items-start justify-between px-5 pt-5 pb-4">
+        <header className="flex items-start justify-between px-5 pt-6 pb-5">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="pulse-live size-1.5 rounded-full bg-glow" />
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                Metah Veste · PDV
-              </p>
-            </div>
-            <h1 className="mt-2 font-display text-[26px] leading-none font-bold tracking-tight">
+            <Logo className="h-6" />
+            <h1 className="mt-4 font-display text-[26px] leading-none font-bold tracking-tight">
               {title}
             </h1>
             {subtitle ? <p className="mt-1 font-mono text-[12px] text-muted">{subtitle}</p> : null}

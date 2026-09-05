@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Btn, Field, TextInput } from "@/components/kit";
 import { adminLogin } from "@/lib/admin.functions";
+import { Logo } from "@/components/Logo";
 
 export const Route = createFileRoute("/entrar")({
   ssr: false,
@@ -41,8 +42,8 @@ function Entrar() {
   return (
     <div className="grid min-h-screen place-items-center bg-bg px-5 text-ink">
       <form onSubmit={onSubmit} className="w-full max-w-sm">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">Metah Veste</p>
-        <h1 className="mt-2 font-display text-[28px] leading-none font-bold tracking-tight">
+        <Logo className="h-9" />
+        <h1 className="mt-8 font-display text-[28px] leading-none font-bold tracking-tight">
           Área restrita
         </h1>
         <p className="mt-2 text-[13px] text-muted">Digite a senha para acessar o painel.</p>

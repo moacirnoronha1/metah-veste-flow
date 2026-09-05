@@ -90,11 +90,11 @@ function Dashboard() {
   return (
     <AppShell title={`${greeting()}!`} subtitle={`${subtitle} · loja aberta`}>
       <div
-        className="anim-rise mx-5 rounded-[22px] bg-gradient-to-br from-glow-soft via-bg to-card p-5 ring-1 ring-line"
+        className="anim-rise mx-5 rounded-[22px] bg-card p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-line"
         style={{ animationDelay: "60ms" }}
       >
         <div className="flex items-center justify-between">
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
             Hoje · vendas
           </p>
           <span className="font-mono text-[10px] text-good">{todaySales.length} vendas hoje</span>
