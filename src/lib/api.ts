@@ -91,9 +91,6 @@ export type Exchange = {
   customers: { name: string } | null;
 };
 
-const db = supabase as unknown as {
-  from: (table: string) => any;
-};
 
 function unwrap<T>(res: { data: T | null; error: { message: string } | null }): T {
   if (res.error) throw new Error(res.error.message);
