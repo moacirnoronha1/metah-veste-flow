@@ -14,6 +14,171 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          banner_subtitle: string
+          banner_title: string
+          banner_url: string | null
+          delivery_text: string
+          fulfillment_options: string[]
+          id: number
+          logo_url: string | null
+          order_intro: string
+          payment_options: string[]
+          show_out_of_stock: boolean
+          updated_at: string
+          whatsapp_number: string
+        }
+        Insert: {
+          banner_subtitle?: string
+          banner_title?: string
+          banner_url?: string | null
+          delivery_text?: string
+          fulfillment_options?: string[]
+          id?: number
+          logo_url?: string | null
+          order_intro?: string
+          payment_options?: string[]
+          show_out_of_stock?: boolean
+          updated_at?: string
+          whatsapp_number?: string
+        }
+        Update: {
+          banner_subtitle?: string
+          banner_title?: string
+          banner_url?: string | null
+          delivery_text?: string
+          fulfillment_options?: string[]
+          id?: number
+          logo_url?: string | null
+          order_intro?: string
+          payment_options?: string[]
+          show_out_of_stock?: boolean
+          updated_at?: string
+          whatsapp_number?: string
+        }
+        Relationships: []
+      }
+      catalog_order_items: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string | null
+          product_name: string
+          quantity: number
+          size: string
+          unit_price: number
+          variant_id: string | null
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id?: string | null
+          product_name: string
+          quantity?: number
+          size?: string
+          unit_price?: number
+          variant_id?: string | null
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          size?: string
+          unit_price?: number
+          variant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalog_order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_order_items_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      catalog_orders: {
+        Row: {
+          address: string | null
+          created_at: string
+          customer_name: string
+          fulfillment: string
+          id: string
+          installments: number
+          notes: string | null
+          number: number
+          payment_method: string
+          phone: string
+          sale_id: string | null
+          status: string
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          customer_name: string
+          fulfillment?: string
+          id?: string
+          installments?: number
+          notes?: string | null
+          number?: number
+          payment_method?: string
+          phone: string
+          sale_id?: string | null
+          status?: string
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          customer_name?: string
+          fulfillment?: string
+          id?: string
+          installments?: number
+          notes?: string | null
+          number?: number
+          payment_method?: string
+          phone?: string
+          sale_id?: string | null
+          status?: string
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalog_orders_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customers: {
         Row: {
           birthday: string | null
@@ -127,10 +292,15 @@ export type Database = {
           category: string
           cost: number
           created_at: string
+          description: string | null
+          featured: boolean
           id: string
+          images: string[]
+          is_new: boolean
           low_stock_threshold: number
           name: string
           price: number
+          show_in_catalog: boolean
           updated_at: string
         }
         Insert: {
@@ -138,10 +308,15 @@ export type Database = {
           category?: string
           cost?: number
           created_at?: string
+          description?: string | null
+          featured?: boolean
           id?: string
+          images?: string[]
+          is_new?: boolean
           low_stock_threshold?: number
           name: string
           price?: number
+          show_in_catalog?: boolean
           updated_at?: string
         }
         Update: {
@@ -149,10 +324,15 @@ export type Database = {
           category?: string
           cost?: number
           created_at?: string
+          description?: string | null
+          featured?: boolean
           id?: string
+          images?: string[]
+          is_new?: boolean
           low_stock_threshold?: number
           name?: string
           price?: number
+          show_in_catalog?: boolean
           updated_at?: string
         }
         Relationships: []
