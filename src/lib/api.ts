@@ -14,6 +14,7 @@ export type Product = {
   show_in_catalog: boolean;
   featured: boolean;
   is_new: boolean;
+  sort_order: number;
 };
 
 
