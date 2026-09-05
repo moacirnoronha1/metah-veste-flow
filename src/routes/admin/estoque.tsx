@@ -23,9 +23,11 @@ import {
   fetchMovements,
   fetchProducts,
   saveProduct,
+  saveProductOrder,
   type ProductWithVariants,
   type Variant,
 } from "@/lib/api";
+import { ReorderList } from "@/components/ReorderList";
 import { brl, dateTimeLabel } from "@/lib/format";
 import { uploadImage } from "@/lib/upload";
 
