@@ -97,7 +97,13 @@ function EstoquePage() {
         price: Number(form.price) || 0,
         low_stock_threshold: Number(form.low_stock_threshold) || 0,
         active: form.active,
+        description: form.description.trim() || null,
+        images: form.images,
+        show_in_catalog: form.show_in_catalog,
+        featured: form.featured,
+        is_new: form.is_new,
       }),
+
     onSuccess: () => {
       toast.success(form.id ? "Produto atualizado" : "Produto cadastrado");
       setFormOpen(false);
