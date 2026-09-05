@@ -23,9 +23,11 @@ import {
   fetchMovements,
   fetchProducts,
   saveProduct,
+  saveProductOrder,
   type ProductWithVariants,
   type Variant,
 } from "@/lib/api";
+import { ReorderList } from "@/components/ReorderList";
 import { brl, dateTimeLabel } from "@/lib/format";
 import { uploadImage } from "@/lib/upload";
 
@@ -69,7 +71,8 @@ function EstoquePage() {
   const products = useQuery({ queryKey: ["products"], queryFn: fetchProducts });
   const movements = useQuery({ queryKey: ["movements"], queryFn: () => fetchMovements() });
 
-  const [tab, setTab] = useState<"produtos" | "historico">("produtos");
+  const [tab, setTab] = useState<"produtos" | "ordem" | "historico">("produtos");
+  const [orderIds, setOrderIds] = useState<string[] | null>(null);
   const [search, setSearch] = useState("");
   const [form, setForm] = useState(emptyProduct);
   const [formOpen, setFormOpen] = useState(false);
@@ -89,6 +92,16 @@ function EstoquePage() {
     qc.invalidateQueries({ queryKey: ["products"] });
     qc.invalidateQueries({ queryKey: ["movements"] });
   };
+
+  const orderMut = useMutation({
+    mutationFn: (ids: string[]) => saveProductOrder(ids),
+    onSuccess: () => {
+      toast.success("Ordem do catálogo salva");
+      setOrderIds(null);
+      qc.invalidateQueries({ queryKey: ["products"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
 
   const saveMut = useMutation({
     mutationFn: () =>
@@ -178,16 +191,60 @@ function EstoquePage() {
   return (
     <AppShell title="Produtos" subtitle="estoque por tamanho e cor">
       <div className="space-y-4 px-5">
-        <div className="grid grid-cols-2 gap-1.5">
+        <div className="grid grid-cols-3 gap-1.5">
           <Chip active={tab === "produtos"} onClick={() => setTab("produtos")}>
             Produtos
+          </Chip>
+          <Chip active={tab === "ordem"} onClick={() => setTab("ordem")}>
+            Ordem
           </Chip>
           <Chip active={tab === "historico"} onClick={() => setTab("historico")}>
             Movimentações
           </Chip>
         </div>
 
-        {tab === "produtos" ? (
+        {tab === "ordem" ? (
+          <>
+            <SectionTitle
+              title="Ordem no catálogo"
+              aside="arraste para reordenar"
+            />
+            {(products.data ?? []).length === 0 ? (
+              <EmptyState text="Nenhum produto cadastrado ainda." />
+            ) : (
+              <>
+                <ReorderList
+                  items={(products.data ?? []).map((p) => ({
+                    id: p.id,
+                    name: p.name,
+                    category: p.category,
+                    image: p.images?.[0] ?? null,
+                  }))}
+                  onChange={setOrderIds}
+                />
+                <div className="sticky bottom-2 flex gap-2 pt-1">
+                  <Btn
+                    className="flex-1"
+                    disabled={!orderIds || orderMut.isPending}
+                    onClick={() => orderIds && orderMut.mutate(orderIds)}
+                  >
+                    {orderMut.isPending ? "Salvando..." : "Salvar ordem"}
+                  </Btn>
+                  <Btn
+                    variant="outline"
+                    disabled={!orderIds || orderMut.isPending}
+                    onClick={() => {
+                      setOrderIds(null);
+                      qc.invalidateQueries({ queryKey: ["products"] });
+                    }}
+                  >
+                    Cancelar
+                  </Btn>
+                </div>
+              </>
+            )}
+          </>
+        ) : tab === "produtos" ? (
           <>
             <div className="flex gap-2">
               <TextInput

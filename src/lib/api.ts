@@ -14,6 +14,7 @@ export type Product = {
   show_in_catalog: boolean;
   featured: boolean;
   is_new: boolean;
+  sort_order: number;
 };
 
 
@@ -105,12 +106,29 @@ export async function fetchProducts(): Promise<ProductWithVariants[]> {
     .select("*, variants(*)")
     .order("created_at", { ascending: false });
   const rows = unwrap<ProductWithVariants[]>(res);
-  return rows.map((p) => ({
-    ...p,
-    variants: [...(p.variants ?? [])].sort((a, b) =>
-      `${a.size}${a.color}`.localeCompare(`${b.size}${b.color}`),
-    ),
-  }));
+  return rows
+    .map((p) => ({
+      ...p,
+      variants: [...(p.variants ?? [])].sort((a, b) =>
+        `${a.size}${a.color}`.localeCompare(`${b.size}${b.color}`),
+      ),
+    }))
+    .sort(
+      (a, b) =>
+        (a.sort_order ?? 0) - (b.sort_order ?? 0) ||
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
+}
+
+/** Salva a ordem manual dos produtos no catálogo. */
+export async function saveProductOrder(ids: string[]) {
+  for (let i = 0; i < ids.length; i++) {
+    const res = await db
+      .from("products")
+      .update({ sort_order: i + 1 })
+      .eq("id", ids[i] as string);
+    if (res.error) throw new Error(res.error.message);
+  }
 }
 
 export async function saveProduct(input: {
