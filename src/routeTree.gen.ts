@@ -9,36 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ClientesRouteImport } from './routes/clientes'
-import { Route as EstoqueRouteImport } from './routes/estoque'
-import { Route as RelatoriosRouteImport } from './routes/relatorios'
-import { Route as VendasRouteImport } from './routes/vendas'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
+import { Route as AdminEstoqueRouteImport } from './routes/admin/estoque'
+import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
+import { Route as AdminVendasRouteImport } from './routes/admin/vendas'
 import { Route as ApiPublicFotoSplatRouteImport } from './routes/api/public/foto.$'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ClientesRoute = ClientesRouteImport.update({
-  id: '/clientes',
-  path: '/clientes',
+const AdminClientesRoute = AdminClientesRouteImport.update({
+  id: '/admin/clientes',
+  path: '/admin/clientes',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EstoqueRoute = EstoqueRouteImport.update({
-  id: '/estoque',
-  path: '/estoque',
+const AdminEstoqueRoute = AdminEstoqueRouteImport.update({
+  id: '/admin/estoque',
+  path: '/admin/estoque',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RelatoriosRoute = RelatoriosRouteImport.update({
-  id: '/relatorios',
-  path: '/relatorios',
+const AdminRelatoriosRoute = AdminRelatoriosRouteImport.update({
+  id: '/admin/relatorios',
+  path: '/admin/relatorios',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VendasRoute = VendasRouteImport.update({
-  id: '/vendas',
-  path: '/vendas',
+const AdminVendasRoute = AdminVendasRouteImport.update({
+  id: '/admin/vendas',
+  path: '/admin/vendas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicFotoSplatRoute = ApiPublicFotoSplatRouteImport.update({
@@ -48,101 +48,101 @@ const ApiPublicFotoSplatRoute = ApiPublicFotoSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/clientes': typeof ClientesRoute
-  '/estoque': typeof EstoqueRoute
-  '/relatorios': typeof RelatoriosRoute
-  '/vendas': typeof VendasRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/estoque': typeof AdminEstoqueRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/vendas': typeof AdminVendasRoute
+  '/admin/': typeof AdminIndexRoute
   '/api/public/foto/$': typeof ApiPublicFotoSplatRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/clientes': typeof ClientesRoute
-  '/estoque': typeof EstoqueRoute
-  '/relatorios': typeof RelatoriosRoute
-  '/vendas': typeof VendasRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/estoque': typeof AdminEstoqueRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/vendas': typeof AdminVendasRoute
+  '/admin': typeof AdminIndexRoute
   '/api/public/foto/$': typeof ApiPublicFotoSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/clientes': typeof ClientesRoute
-  '/estoque': typeof EstoqueRoute
-  '/relatorios': typeof RelatoriosRoute
-  '/vendas': typeof VendasRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/estoque': typeof AdminEstoqueRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/vendas': typeof AdminVendasRoute
+  '/admin/': typeof AdminIndexRoute
   '/api/public/foto/$': typeof ApiPublicFotoSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/clientes'
-    | '/estoque'
-    | '/relatorios'
-    | '/vendas'
+    | '/admin/clientes'
+    | '/admin/estoque'
+    | '/admin/relatorios'
+    | '/admin/vendas'
+    | '/admin/'
     | '/api/public/foto/$'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/clientes'
-    | '/estoque'
-    | '/relatorios'
-    | '/vendas'
+    | '/admin/clientes'
+    | '/admin/estoque'
+    | '/admin/relatorios'
+    | '/admin/vendas'
+    | '/admin'
     | '/api/public/foto/$'
   id:
     | '__root__'
-    | '/'
-    | '/clientes'
-    | '/estoque'
-    | '/relatorios'
-    | '/vendas'
+    | '/admin/clientes'
+    | '/admin/estoque'
+    | '/admin/relatorios'
+    | '/admin/vendas'
+    | '/admin/'
     | '/api/public/foto/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ClientesRoute: typeof ClientesRoute
-  EstoqueRoute: typeof EstoqueRoute
-  RelatoriosRoute: typeof RelatoriosRoute
-  VendasRoute: typeof VendasRoute
+  AdminClientesRoute: typeof AdminClientesRoute
+  AdminEstoqueRoute: typeof AdminEstoqueRoute
+  AdminRelatoriosRoute: typeof AdminRelatoriosRoute
+  AdminVendasRoute: typeof AdminVendasRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   ApiPublicFotoSplatRoute: typeof ApiPublicFotoSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/clientes': {
-      id: '/clientes'
-      path: '/clientes'
-      fullPath: '/clientes'
-      preLoaderRoute: typeof ClientesRouteImport
+    '/admin/clientes': {
+      id: '/admin/clientes'
+      path: '/admin/clientes'
+      fullPath: '/admin/clientes'
+      preLoaderRoute: typeof AdminClientesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/estoque': {
-      id: '/estoque'
-      path: '/estoque'
-      fullPath: '/estoque'
-      preLoaderRoute: typeof EstoqueRouteImport
+    '/admin/estoque': {
+      id: '/admin/estoque'
+      path: '/admin/estoque'
+      fullPath: '/admin/estoque'
+      preLoaderRoute: typeof AdminEstoqueRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/relatorios': {
-      id: '/relatorios'
-      path: '/relatorios'
-      fullPath: '/relatorios'
-      preLoaderRoute: typeof RelatoriosRouteImport
+    '/admin/relatorios': {
+      id: '/admin/relatorios'
+      path: '/admin/relatorios'
+      fullPath: '/admin/relatorios'
+      preLoaderRoute: typeof AdminRelatoriosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/vendas': {
-      id: '/vendas'
-      path: '/vendas'
-      fullPath: '/vendas'
-      preLoaderRoute: typeof VendasRouteImport
+    '/admin/vendas': {
+      id: '/admin/vendas'
+      path: '/admin/vendas'
+      fullPath: '/admin/vendas'
+      preLoaderRoute: typeof AdminVendasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/foto/$': {
@@ -156,11 +156,11 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ClientesRoute: ClientesRoute,
-  EstoqueRoute: EstoqueRoute,
-  RelatoriosRoute: RelatoriosRoute,
-  VendasRoute: VendasRoute,
+  AdminClientesRoute: AdminClientesRoute,
+  AdminEstoqueRoute: AdminEstoqueRoute,
+  AdminRelatoriosRoute: AdminRelatoriosRoute,
+  AdminVendasRoute: AdminVendasRoute,
+  AdminIndexRoute: AdminIndexRoute,
   ApiPublicFotoSplatRoute: ApiPublicFotoSplatRoute,
 }
 export const routeTree = rootRouteImport
