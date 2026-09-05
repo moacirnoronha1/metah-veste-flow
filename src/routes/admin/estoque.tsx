@@ -12,6 +12,7 @@ import {
   Panel,
   SectionTitle,
   Tag,
+  TextArea,
   TextInput,
 } from "@/components/kit";
 import {
@@ -26,6 +27,7 @@ import {
   type Variant,
 } from "@/lib/api";
 import { brl, dateTimeLabel } from "@/lib/format";
+import { uploadImage } from "@/lib/upload";
 
 export const Route = createFileRoute("/admin/estoque")({
   head: () => ({
@@ -71,6 +73,7 @@ function EstoquePage() {
   const [search, setSearch] = useState("");
   const [form, setForm] = useState(emptyProduct);
   const [formOpen, setFormOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [variantFor, setVariantFor] = useState<ProductWithVariants | null>(null);
   const [variantForm, setVariantForm] = useState({ size: "M", color: "", quantity: "0" });
   const [moveFor, setMoveFor] = useState<{ product: ProductWithVariants; variant: Variant } | null>(
@@ -403,7 +406,7 @@ function EstoquePage() {
               accept="image/*"
               multiple
               className="w-full text-[11px] text-muted"
-              onChange={async (e) => {
+              onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
                 const files = [...(e.target.files ?? [])];
                 e.target.value = "";
                 if (files.length === 0) return;
