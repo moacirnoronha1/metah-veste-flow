@@ -93,7 +93,7 @@ function Carrinho() {
         {items.length > 0 ? (
           <>
             <div className="mt-4 flex items-center justify-between rounded-2xl bg-glow-soft p-4">
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-gold">
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
                 Total
               </span>
               <span className="font-display text-[24px] font-bold tracking-tight">
