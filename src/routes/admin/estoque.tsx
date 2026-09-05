@@ -93,6 +93,16 @@ function EstoquePage() {
     qc.invalidateQueries({ queryKey: ["movements"] });
   };
 
+  const orderMut = useMutation({
+    mutationFn: (ids: string[]) => saveProductOrder(ids),
+    onSuccess: () => {
+      toast.success("Ordem do catálogo salva");
+      setOrderIds(null);
+      qc.invalidateQueries({ queryKey: ["products"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
   const saveMut = useMutation({
     mutationFn: () =>
       saveProduct({
