@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
 import { Route as AdminEstoqueRouteImport } from './routes/admin/estoque'
@@ -16,6 +17,11 @@ import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
 import { Route as AdminVendasRouteImport } from './routes/admin/vendas'
 import { Route as ApiPublicFotoSplatRouteImport } from './routes/api/public/foto.$'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
@@ -48,6 +54,7 @@ const ApiPublicFotoSplatRoute = ApiPublicFotoSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -56,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/api/public/foto/$': typeof ApiPublicFotoSplatRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -65,6 +73,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -75,6 +84,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/admin/clientes'
     | '/admin/estoque'
     | '/admin/relatorios'
@@ -83,6 +93,7 @@ export interface FileRouteTypes {
     | '/api/public/foto/$'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/admin/clientes'
     | '/admin/estoque'
     | '/admin/relatorios'
@@ -91,6 +102,7 @@ export interface FileRouteTypes {
     | '/api/public/foto/$'
   id:
     | '__root__'
+    | '/'
     | '/admin/clientes'
     | '/admin/estoque'
     | '/admin/relatorios'
@@ -100,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AdminClientesRoute: typeof AdminClientesRoute
   AdminEstoqueRoute: typeof AdminEstoqueRoute
   AdminRelatoriosRoute: typeof AdminRelatoriosRoute
@@ -110,6 +123,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/admin'
@@ -156,6 +176,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AdminClientesRoute: AdminClientesRoute,
   AdminEstoqueRoute: AdminEstoqueRoute,
   AdminRelatoriosRoute: AdminRelatoriosRoute,
