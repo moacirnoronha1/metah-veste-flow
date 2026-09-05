@@ -14,6 +14,7 @@ import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
+import { Route as AdminConfigRouteImport } from './routes/admin/config'
 import { Route as AdminEstoqueRouteImport } from './routes/admin/estoque'
 import { Route as AdminPedidosRouteImport } from './routes/admin/pedidos'
 import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
@@ -43,6 +44,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminClientesRoute = AdminClientesRouteImport.update({
   id: '/clientes',
   path: '/clientes',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminConfigRoute = AdminConfigRouteImport.update({
+  id: '/config',
+  path: '/config',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminEstoqueRoute = AdminEstoqueRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
+  '/admin/config': typeof AdminConfigRoute
   '/admin/estoque': typeof AdminEstoqueRoute
   '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
+  '/admin/config': typeof AdminConfigRoute
   '/admin/estoque': typeof AdminEstoqueRoute
   '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
+  '/admin/config': typeof AdminConfigRoute
   '/admin/estoque': typeof AdminEstoqueRoute
   '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/entrar'
     | '/admin/clientes'
+    | '/admin/config'
     | '/admin/estoque'
     | '/admin/pedidos'
     | '/admin/relatorios'
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/'
     | '/entrar'
     | '/admin/clientes'
+    | '/admin/config'
     | '/admin/estoque'
     | '/admin/pedidos'
     | '/admin/relatorios'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/entrar'
     | '/admin/clientes'
+    | '/admin/config'
     | '/admin/estoque'
     | '/admin/pedidos'
     | '/admin/relatorios'
@@ -189,6 +201,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminClientesRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/config': {
+      id: '/admin/config'
+      path: '/config'
+      fullPath: '/admin/config'
+      preLoaderRoute: typeof AdminConfigRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/estoque': {
       id: '/admin/estoque'
       path: '/estoque'
@@ -229,6 +248,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminClientesRoute: typeof AdminClientesRoute
+  AdminConfigRoute: typeof AdminConfigRoute
   AdminEstoqueRoute: typeof AdminEstoqueRoute
   AdminPedidosRoute: typeof AdminPedidosRoute
   AdminRelatoriosRoute: typeof AdminRelatoriosRoute
@@ -238,6 +258,7 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminClientesRoute: AdminClientesRoute,
+  AdminConfigRoute: AdminConfigRoute,
   AdminEstoqueRoute: AdminEstoqueRoute,
   AdminPedidosRoute: AdminPedidosRoute,
   AdminRelatoriosRoute: AdminRelatoriosRoute,
