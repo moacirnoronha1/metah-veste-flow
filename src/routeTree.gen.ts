@@ -20,6 +20,7 @@ import { Route as AdminPedidosRouteImport } from './routes/admin/pedidos'
 import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
 import { Route as AdminVendasRouteImport } from './routes/admin/vendas'
 import { Route as CatalogoIndexRouteImport } from './routes/catalogo/index'
+import { Route as CatalogoProdutoIdRouteImport } from './routes/catalogo/produto.$id'
 import { Route as ApiPublicFotoSplatRouteImport } from './routes/api/public/foto.$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -77,6 +78,11 @@ const CatalogoIndexRoute = CatalogoIndexRouteImport.update({
   path: '/catalogo/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogoProdutoIdRoute = CatalogoProdutoIdRouteImport.update({
+  id: '/catalogo/produto/$id',
+  path: '/catalogo/produto/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicFotoSplatRoute = ApiPublicFotoSplatRouteImport.update({
   id: '/api/public/foto/$',
   path: '/api/public/foto/$',
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/admin/vendas': typeof AdminVendasRoute
   '/admin/': typeof AdminIndexRoute
   '/catalogo/': typeof CatalogoIndexRoute
+  '/catalogo/produto/$id': typeof CatalogoProdutoIdRoute
   '/api/public/foto/$': typeof ApiPublicFotoSplatRoute
 }
 export interface FileRoutesByTo {
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/admin/vendas': typeof AdminVendasRoute
   '/admin': typeof AdminIndexRoute
   '/catalogo': typeof CatalogoIndexRoute
+  '/catalogo/produto/$id': typeof CatalogoProdutoIdRoute
   '/api/public/foto/$': typeof ApiPublicFotoSplatRoute
 }
 export interface FileRoutesById {
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/admin/vendas': typeof AdminVendasRoute
   '/admin/': typeof AdminIndexRoute
   '/catalogo/': typeof CatalogoIndexRoute
+  '/catalogo/produto/$id': typeof CatalogoProdutoIdRoute
   '/api/public/foto/$': typeof ApiPublicFotoSplatRoute
 }
 export interface FileRouteTypes {
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
     | '/admin/vendas'
     | '/admin/'
     | '/catalogo/'
+    | '/catalogo/produto/$id'
     | '/api/public/foto/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/admin/vendas'
     | '/admin'
     | '/catalogo'
+    | '/catalogo/produto/$id'
     | '/api/public/foto/$'
   id:
     | '__root__'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/admin/vendas'
     | '/admin/'
     | '/catalogo/'
+    | '/catalogo/produto/$id'
     | '/api/public/foto/$'
   fileRoutesById: FileRoutesById
 }
@@ -174,6 +186,7 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   EntrarRoute: typeof EntrarRoute
   CatalogoIndexRoute: typeof CatalogoIndexRoute
+  CatalogoProdutoIdRoute: typeof CatalogoProdutoIdRoute
   ApiPublicFotoSplatRoute: typeof ApiPublicFotoSplatRoute
 }
 
@@ -256,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatalogoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalogo/produto/$id': {
+      id: '/catalogo/produto/$id'
+      path: '/catalogo/produto/$id'
+      fullPath: '/catalogo/produto/$id'
+      preLoaderRoute: typeof CatalogoProdutoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/foto/$': {
       id: '/api/public/foto/$'
       path: '/api/public/foto/$'
@@ -295,6 +315,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRouteRoute: AdminRouteRouteWithChildren,
   EntrarRoute: EntrarRoute,
   CatalogoIndexRoute: CatalogoIndexRoute,
+  CatalogoProdutoIdRoute: CatalogoProdutoIdRoute,
   ApiPublicFotoSplatRoute: ApiPublicFotoSplatRoute,
 }
 export const routeTree = rootRouteImport
