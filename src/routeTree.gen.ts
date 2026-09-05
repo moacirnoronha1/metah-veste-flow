@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
 import { Route as AdminEstoqueRouteImport } from './routes/admin/estoque'
@@ -20,6 +21,11 @@ import { Route as ApiPublicFotoSplatRouteImport } from './routes/api/public/foto
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -55,6 +61,7 @@ const ApiPublicFotoSplatRoute = ApiPublicFotoSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/entrar'
     | '/admin/clientes'
     | '/admin/estoque'
     | '/admin/relatorios'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/entrar'
     | '/admin/clientes'
     | '/admin/estoque'
     | '/admin/relatorios'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/entrar'
     | '/admin/clientes'
     | '/admin/estoque'
     | '/admin/relatorios'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EntrarRoute: typeof EntrarRoute
   AdminClientesRoute: typeof AdminClientesRoute
   AdminEstoqueRoute: typeof AdminEstoqueRoute
   AdminRelatoriosRoute: typeof AdminRelatoriosRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -177,6 +197,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EntrarRoute: EntrarRoute,
   AdminClientesRoute: AdminClientesRoute,
   AdminEstoqueRoute: AdminEstoqueRoute,
   AdminRelatoriosRoute: AdminRelatoriosRoute,
