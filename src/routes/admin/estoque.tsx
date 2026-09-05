@@ -54,7 +54,13 @@ const emptyProduct = {
   price: "",
   low_stock_threshold: "3",
   active: true,
+  description: "",
+  images: [] as string[],
+  show_in_catalog: true,
+  featured: false,
+  is_new: false,
 };
+
 
 function EstoquePage() {
   const qc = useQueryClient();
