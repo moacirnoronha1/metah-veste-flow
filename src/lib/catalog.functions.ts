@@ -97,6 +97,7 @@ export const getCatalog = createServerFn({ method: "GET" }).handler(async () => 
     .select(PUBLIC_COLUMNS)
     .eq("active", true)
     .eq("show_in_catalog", true)
+    .order("sort_order", { ascending: true })
     .order("created_at", { ascending: false });
   if (error) throw new Error(error.message);
   const products = ((data ?? []) as unknown as Record<string, unknown>[]).map(mapProduct);
