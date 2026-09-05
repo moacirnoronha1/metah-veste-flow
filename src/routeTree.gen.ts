@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
@@ -23,35 +24,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EntrarRoute = EntrarRouteImport.update({
   id: '/entrar',
   path: '/entrar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/admin/',
-  path: '/admin/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminClientesRoute = AdminClientesRouteImport.update({
-  id: '/admin/clientes',
-  path: '/admin/clientes',
-  getParentRoute: () => rootRouteImport,
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminEstoqueRoute = AdminEstoqueRouteImport.update({
-  id: '/admin/estoque',
-  path: '/admin/estoque',
-  getParentRoute: () => rootRouteImport,
+  id: '/estoque',
+  path: '/estoque',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminRelatoriosRoute = AdminRelatoriosRouteImport.update({
-  id: '/admin/relatorios',
-  path: '/admin/relatorios',
-  getParentRoute: () => rootRouteImport,
+  id: '/relatorios',
+  path: '/relatorios',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminVendasRoute = AdminVendasRouteImport.update({
-  id: '/admin/vendas',
-  path: '/admin/vendas',
-  getParentRoute: () => rootRouteImport,
+  id: '/vendas',
+  path: '/vendas',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const ApiPublicFotoSplatRoute = ApiPublicFotoSplatRouteImport.update({
   id: '/api/public/foto/$',
@@ -61,6 +67,7 @@ const ApiPublicFotoSplatRoute = ApiPublicFotoSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
@@ -94,6 +102,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/entrar'
     | '/admin/clientes'
     | '/admin/estoque'
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/entrar'
     | '/admin/clientes'
     | '/admin/estoque'
@@ -125,12 +135,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   EntrarRoute: typeof EntrarRoute
-  AdminClientesRoute: typeof AdminClientesRoute
-  AdminEstoqueRoute: typeof AdminEstoqueRoute
-  AdminRelatoriosRoute: typeof AdminRelatoriosRoute
-  AdminVendasRoute: typeof AdminVendasRoute
-  AdminIndexRoute: typeof AdminIndexRoute
   ApiPublicFotoSplatRoute: typeof ApiPublicFotoSplatRoute
 }
 
@@ -143,6 +149,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/entrar': {
       id: '/entrar'
       path: '/entrar'
@@ -152,38 +165,38 @@ declare module '@tanstack/react-router' {
     }
     '/admin/': {
       id: '/admin/'
-      path: '/admin'
+      path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/admin/clientes': {
       id: '/admin/clientes'
-      path: '/admin/clientes'
+      path: '/clientes'
       fullPath: '/admin/clientes'
       preLoaderRoute: typeof AdminClientesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/admin/estoque': {
       id: '/admin/estoque'
-      path: '/admin/estoque'
+      path: '/estoque'
       fullPath: '/admin/estoque'
       preLoaderRoute: typeof AdminEstoqueRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/admin/relatorios': {
       id: '/admin/relatorios'
-      path: '/admin/relatorios'
+      path: '/relatorios'
       fullPath: '/admin/relatorios'
       preLoaderRoute: typeof AdminRelatoriosRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/admin/vendas': {
       id: '/admin/vendas'
-      path: '/admin/vendas'
+      path: '/vendas'
       fullPath: '/admin/vendas'
       preLoaderRoute: typeof AdminVendasRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/api/public/foto/$': {
       id: '/api/public/foto/$'
@@ -195,14 +208,30 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  EntrarRoute: EntrarRoute,
+interface AdminRouteRouteChildren {
+  AdminClientesRoute: typeof AdminClientesRoute
+  AdminEstoqueRoute: typeof AdminEstoqueRoute
+  AdminRelatoriosRoute: typeof AdminRelatoriosRoute
+  AdminVendasRoute: typeof AdminVendasRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminClientesRoute: AdminClientesRoute,
   AdminEstoqueRoute: AdminEstoqueRoute,
   AdminRelatoriosRoute: AdminRelatoriosRoute,
   AdminVendasRoute: AdminVendasRoute,
   AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
+  EntrarRoute: EntrarRoute,
   ApiPublicFotoSplatRoute: ApiPublicFotoSplatRoute,
 }
 export const routeTree = rootRouteImport
