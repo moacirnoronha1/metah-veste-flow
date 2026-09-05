@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { ShopShell } from "@/components/ShopShell";
 import { Btn, Chip, Tag } from "@/components/kit";
 import { getCatalogProduct } from "@/lib/catalog.functions";
+import { ProductGallery } from "@/components/ProductGallery";
 import { brl } from "@/lib/format";
 import { cart } from "@/lib/cart";
 
@@ -45,7 +46,6 @@ function Produto() {
   const [size, setSize] = useState<string | null>(null);
   const [color, setColor] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
-  const [photo, setPhoto] = useState(0);
 
   const sizes = [...new Set(p.variants.map((v) => v.size))];
   const colors = [...new Set(p.variants.filter((v) => !size || v.size === size).map((v) => v.color))];
@@ -78,34 +78,7 @@ function Produto() {
           ← Voltar ao catálogo
         </Link>
 
-        <div className="mt-3 overflow-hidden rounded-[24px] bg-card ring-1 ring-line">
-          {p.images.length > 0 ? (
-            <img
-              src={p.images[photo]}
-              alt={p.name}
-              className="aspect-[3/4] w-full object-cover sm:aspect-[4/3]"
-            />
-          ) : (
-            <div className="grid aspect-[3/4] w-full place-items-center font-mono text-[11px] text-muted">
-              sem foto
-            </div>
-          )}
-        </div>
-        {p.images.length > 1 ? (
-          <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
-            {p.images.map((img, i) => (
-              <button key={img} onClick={() => setPhoto(i)} className="shrink-0">
-                <img
-                  src={img}
-                  alt={`${p.name} foto ${i + 1}`}
-                  className={`size-16 rounded-xl object-cover ring-1 ${
-                    i === photo ? "ring-2 ring-glow" : "ring-line"
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
-        ) : null}
+        <ProductGallery images={p.images} alt={p.name} />
 
         <div className="mt-4">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
