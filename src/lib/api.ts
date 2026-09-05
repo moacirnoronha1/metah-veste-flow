@@ -500,3 +500,139 @@ export async function deleteExchange(id: string) {
   const res = await db.from("exchanges").delete().eq("id", id);
   if (res.error) throw new Error(res.error.message);
 }
+
+/* ---------------- catálogo: pedidos e configurações ---------------- */
+
+export type CatalogOrderItem = {
+  id: string;
+  order_id: string;
+  variant_id: string | null;
+  product_id: string | null;
+  product_name: string;
+  size: string;
+  color: string;
+  quantity: number;
+  unit_price: number;
+};
+
+export type CatalogOrder = {
+  id: string;
+  number: number;
+  customer_name: string;
+  phone: string;
+  fulfillment: string;
+  address: string | null;
+  payment_method: string;
+  installments: number;
+  notes: string | null;
+  total: number;
+  status: string;
+  sale_id: string | null;
+  created_at: string;
+  catalog_order_items: CatalogOrderItem[];
+};
+
+export type Settings = {
+  id: number;
+  whatsapp_number: string;
+  order_intro: string;
+  banner_url: string | null;
+  logo_url: string | null;
+  banner_title: string;
+  banner_subtitle: string;
+  payment_options: string[];
+  fulfillment_options: string[];
+  delivery_text: string;
+  show_out_of_stock: boolean;
+};
+
+export async function fetchCatalogOrders(limit = 200): Promise<CatalogOrder[]> {
+  const res = await db
+    .from("catalog_orders")
+    .select("*, catalog_order_items(*)")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  return unwrap<CatalogOrder[]>(res);
+}
+
+export async function updateOrderStatus(id: string, status: string) {
+  const res = await db.from("catalog_orders").update({ status }).eq("id", id);
+  if (res.error) throw new Error(res.error.message);
+}
+
+export async function deleteCatalogOrder(id: string) {
+  const res = await db.from("catalog_orders").delete().eq("id", id);
+  if (res.error) throw new Error(res.error.message);
+}
+
+export async function convertOrderToSale(
+  order: CatalogOrder,
+  products: ProductWithVariants[],
+  customers: Customer[],
+) {
+  if (order.sale_id) throw new Error("Este pedido já foi transformado em venda.");
+
+  const items: NewSaleItem[] = [];
+  for (const item of order.catalog_order_items ?? []) {
+    const product = products.find((p) => p.variants.some((v) => v.id === item.variant_id));
+    const variant = product?.variants.find((v) => v.id === item.variant_id);
+    if (!product || !variant) {
+      throw new Error(`"${item.product_name}" não existe mais no estoque.`);
+    }
+    if (variant.quantity < item.quantity) {
+      throw new Error(
+        `Estoque insuficiente para ${item.product_name} (${variant.size} · ${variant.color}).`,
+      );
+    }
+    items.push({
+      variant,
+      product_name: product.name,
+      unit_price: Number(item.unit_price),
+      unit_cost: Number(product.cost),
+      quantity: item.quantity,
+    });
+  }
+  if (items.length === 0) throw new Error("Pedido sem itens.");
+
+  const digits = (v: string | null) => (v ?? "").replace(/\D/g, "");
+  let customerId =
+    customers.find((c) => digits(c.phone) && digits(c.phone) === digits(order.phone))?.id ?? null;
+
+  if (!customerId) {
+    const created = await db
+      .from("customers")
+      .insert({ name: order.customer_name, phone: order.phone })
+      .select()
+      .single();
+    if (created.error) throw new Error(created.error.message);
+    customerId = created.data.id as string;
+  }
+
+  const sale = await createSale({
+    customer_id: customerId,
+    items,
+    discount: 0,
+    payment_method: order.payment_method,
+    installments: order.installments,
+    status: "paga",
+    notes: `Pedido do catálogo #${order.number}`,
+  });
+
+  const upd = await db
+    .from("catalog_orders")
+    .update({ sale_id: sale.id, status: "finalizado" })
+    .eq("id", order.id);
+  if (upd.error) throw new Error(upd.error.message);
+  return sale;
+}
+
+export async function fetchSettings(): Promise<Settings> {
+  const res = await db.from("app_settings").select("*").eq("id", 1).single();
+  if (res.error) throw new Error(res.error.message);
+  return res.data as Settings;
+}
+
+export async function saveSettings(input: Partial<Settings>) {
+  const res = await db.from("app_settings").update(input).eq("id", 1);
+  if (res.error) throw new Error(res.error.message);
+}
