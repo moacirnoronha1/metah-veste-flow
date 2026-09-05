@@ -5,6 +5,7 @@ import { Btn, Field, TextInput } from "@/components/kit";
 import { adminLogin } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/entrar")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Área restrita — Metah Veste" },
