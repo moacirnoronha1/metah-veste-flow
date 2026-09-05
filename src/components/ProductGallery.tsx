@@ -25,11 +25,13 @@ export function ProductGallery({ images, alt }: Props) {
   const touch = useRef<{ x: number; y: number } | null>(null);
   function onTouchStart(e: React.TouchEvent) {
     const t = e.touches[0];
+    if (!t) return;
     touch.current = { x: t.clientX, y: t.clientY };
   }
   function onTouchEnd(e: React.TouchEvent) {
     if (!touch.current || !many) return;
     const t = e.changedTouches[0];
+    if (!t) return;
     const dx = t.clientX - touch.current.x;
     const dy = t.clientY - touch.current.y;
     touch.current = null;
@@ -268,6 +270,7 @@ function Lightbox({
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.current.size === 2) {
       const [a, b] = [...pointers.current.values()];
+      if (!a || !b) return;
       gesture.current = {
         startDist: Math.hypot(a.x - b.x, a.y - b.y),
         startScale: stateRef.current.scale,
