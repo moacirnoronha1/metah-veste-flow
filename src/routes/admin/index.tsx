@@ -5,7 +5,7 @@ import { EmptyState, Panel, SectionTitle, Tag } from "@/components/kit";
 import { fetchCustomers, fetchProducts, fetchSales } from "@/lib/api";
 import { brl, startOfDay, startOfMonth } from "@/lib/format";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/admin/")({
   head: () => ({
     meta: [
       { title: "Painel da loja — Metah Veste" },
@@ -175,7 +175,7 @@ function Dashboard() {
       <div className="mt-4 px-5">
         <SectionTitle
           title="Estoque baixo"
-          aside={<Link to="/estoque">ver estoque</Link>}
+          aside={<Link to="/admin/estoque">ver estoque</Link>}
         />
         {lowStock.length === 0 ? (
           <EmptyState text="Tudo certo, nenhum produto em falta." />
@@ -203,7 +203,7 @@ function Dashboard() {
 
       <div className="mt-4 px-5">
         <Link
-          to="/vendas"
+          to="/admin/vendas"
           className="anim-rise block w-full rounded-xl bg-ink py-3.5 text-center font-display text-[14px] font-semibold text-bg"
         >
           Registrar venda

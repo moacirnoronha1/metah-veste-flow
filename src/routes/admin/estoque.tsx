@@ -27,7 +27,7 @@ import {
 } from "@/lib/api";
 import { brl, dateTimeLabel } from "@/lib/format";
 
-export const Route = createFileRoute("/estoque")({
+export const Route = createFileRoute("/admin/estoque")({
   head: () => ({
     meta: [
       { title: "Produtos e estoque — Metah Veste" },

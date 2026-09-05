@@ -33,7 +33,7 @@ import {
 } from "@/lib/api";
 import { PAYMENT_LABELS, STATUS_LABELS, brl, dateTimeLabel } from "@/lib/format";
 
-export const Route = createFileRoute("/vendas")({
+export const Route = createFileRoute("/admin/vendas")({
   head: () => ({
     meta: [
       { title: "Vendas e trocas — Metah Veste" },
