@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { db } from "@/lib/admin-db";
 
 export type Product = {
   id: string;
@@ -9,7 +9,13 @@ export type Product = {
   low_stock_threshold: number;
   active: boolean;
   created_at: string;
+  description: string | null;
+  images: string[];
+  show_in_catalog: boolean;
+  featured: boolean;
+  is_new: boolean;
 };
+
 
 export type Variant = {
   id: string;
