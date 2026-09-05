@@ -191,16 +191,60 @@ function EstoquePage() {
   return (
     <AppShell title="Produtos" subtitle="estoque por tamanho e cor">
       <div className="space-y-4 px-5">
-        <div className="grid grid-cols-2 gap-1.5">
+        <div className="grid grid-cols-3 gap-1.5">
           <Chip active={tab === "produtos"} onClick={() => setTab("produtos")}>
             Produtos
+          </Chip>
+          <Chip active={tab === "ordem"} onClick={() => setTab("ordem")}>
+            Ordem
           </Chip>
           <Chip active={tab === "historico"} onClick={() => setTab("historico")}>
             Movimentações
           </Chip>
         </div>
 
-        {tab === "produtos" ? (
+        {tab === "ordem" ? (
+          <>
+            <SectionTitle
+              title="Ordem no catálogo"
+              aside="arraste para reordenar"
+            />
+            {(products.data ?? []).length === 0 ? (
+              <EmptyState text="Nenhum produto cadastrado ainda." />
+            ) : (
+              <>
+                <ReorderList
+                  items={(products.data ?? []).map((p) => ({
+                    id: p.id,
+                    name: p.name,
+                    category: p.category,
+                    image: p.images?.[0] ?? null,
+                  }))}
+                  onChange={setOrderIds}
+                />
+                <div className="sticky bottom-2 flex gap-2 pt-1">
+                  <Btn
+                    className="flex-1"
+                    disabled={!orderIds || orderMut.isPending}
+                    onClick={() => orderIds && orderMut.mutate(orderIds)}
+                  >
+                    {orderMut.isPending ? "Salvando..." : "Salvar ordem"}
+                  </Btn>
+                  <Btn
+                    variant="outline"
+                    disabled={!orderIds || orderMut.isPending}
+                    onClick={() => {
+                      setOrderIds(null);
+                      qc.invalidateQueries({ queryKey: ["products"] });
+                    }}
+                  >
+                    Cancelar
+                  </Btn>
+                </div>
+              </>
+            )}
+          </>
+        ) : tab === "produtos" ? (
           <>
             <div className="flex gap-2">
               <TextInput
