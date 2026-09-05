@@ -75,10 +75,7 @@ function Catalogo() {
             />
           ) : null}
           <div className="p-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-gold">
-              Coleção atual
-            </p>
-            <h1 className="mt-2 font-display text-[30px] leading-[1.05] font-bold tracking-tight">
+            <h1 className="font-display text-[30px] leading-[1.05] font-bold tracking-tight">
               {settings.banner_title}
             </h1>
             <p className="mt-2 max-w-md text-[13px] text-muted">{settings.banner_subtitle}</p>
