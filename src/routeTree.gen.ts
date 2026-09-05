@@ -20,6 +20,7 @@ import { Route as AdminPedidosRouteImport } from './routes/admin/pedidos'
 import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
 import { Route as AdminVendasRouteImport } from './routes/admin/vendas'
 import { Route as CatalogoIndexRouteImport } from './routes/catalogo/index'
+import { Route as CatalogoCarrinhoRouteImport } from './routes/catalogo/carrinho'
 import { Route as CatalogoProdutoIdRouteImport } from './routes/catalogo/produto.$id'
 import { Route as ApiPublicFotoSplatRouteImport } from './routes/api/public/foto.$'
 
@@ -78,6 +79,11 @@ const CatalogoIndexRoute = CatalogoIndexRouteImport.update({
   path: '/catalogo/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogoCarrinhoRoute = CatalogoCarrinhoRouteImport.update({
+  id: '/catalogo/carrinho',
+  path: '/catalogo/carrinho',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CatalogoProdutoIdRoute = CatalogoProdutoIdRouteImport.update({
   id: '/catalogo/produto/$id',
   path: '/catalogo/produto/$id',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
   '/admin/vendas': typeof AdminVendasRoute
+  '/catalogo/carrinho': typeof CatalogoCarrinhoRoute
   '/admin/': typeof AdminIndexRoute
   '/catalogo/': typeof CatalogoIndexRoute
   '/catalogo/produto/$id': typeof CatalogoProdutoIdRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
   '/admin/vendas': typeof AdminVendasRoute
+  '/catalogo/carrinho': typeof CatalogoCarrinhoRoute
   '/admin': typeof AdminIndexRoute
   '/catalogo': typeof CatalogoIndexRoute
   '/catalogo/produto/$id': typeof CatalogoProdutoIdRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
   '/admin/vendas': typeof AdminVendasRoute
+  '/catalogo/carrinho': typeof CatalogoCarrinhoRoute
   '/admin/': typeof AdminIndexRoute
   '/catalogo/': typeof CatalogoIndexRoute
   '/catalogo/produto/$id': typeof CatalogoProdutoIdRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/admin/pedidos'
     | '/admin/relatorios'
     | '/admin/vendas'
+    | '/catalogo/carrinho'
     | '/admin/'
     | '/catalogo/'
     | '/catalogo/produto/$id'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/admin/pedidos'
     | '/admin/relatorios'
     | '/admin/vendas'
+    | '/catalogo/carrinho'
     | '/admin'
     | '/catalogo'
     | '/catalogo/produto/$id'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/admin/pedidos'
     | '/admin/relatorios'
     | '/admin/vendas'
+    | '/catalogo/carrinho'
     | '/admin/'
     | '/catalogo/'
     | '/catalogo/produto/$id'
@@ -185,6 +197,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   EntrarRoute: typeof EntrarRoute
+  CatalogoCarrinhoRoute: typeof CatalogoCarrinhoRoute
   CatalogoIndexRoute: typeof CatalogoIndexRoute
   CatalogoProdutoIdRoute: typeof CatalogoProdutoIdRoute
   ApiPublicFotoSplatRoute: typeof ApiPublicFotoSplatRoute
@@ -269,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatalogoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalogo/carrinho': {
+      id: '/catalogo/carrinho'
+      path: '/catalogo/carrinho'
+      fullPath: '/catalogo/carrinho'
+      preLoaderRoute: typeof CatalogoCarrinhoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/catalogo/produto/$id': {
       id: '/catalogo/produto/$id'
       path: '/catalogo/produto/$id'
@@ -314,6 +334,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
   EntrarRoute: EntrarRoute,
+  CatalogoCarrinhoRoute: CatalogoCarrinhoRoute,
   CatalogoIndexRoute: CatalogoIndexRoute,
   CatalogoProdutoIdRoute: CatalogoProdutoIdRoute,
   ApiPublicFotoSplatRoute: ApiPublicFotoSplatRoute,
