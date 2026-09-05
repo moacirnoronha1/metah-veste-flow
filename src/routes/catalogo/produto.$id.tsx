@@ -46,7 +46,6 @@ function Produto() {
   const [size, setSize] = useState<string | null>(null);
   const [color, setColor] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
-  const [photo, setPhoto] = useState(0);
 
   const sizes = [...new Set(p.variants.map((v) => v.size))];
   const colors = [...new Set(p.variants.filter((v) => !size || v.size === size).map((v) => v.color))];
