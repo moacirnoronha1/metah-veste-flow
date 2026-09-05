@@ -121,6 +121,11 @@ export async function saveProduct(input: {
   price: number;
   low_stock_threshold: number;
   active: boolean;
+  description?: string | null;
+  images?: string[];
+  show_in_catalog?: boolean;
+  featured?: boolean;
+  is_new?: boolean;
 }) {
   const payload = {
     name: input.name,
@@ -129,7 +134,13 @@ export async function saveProduct(input: {
     price: input.price,
     low_stock_threshold: input.low_stock_threshold,
     active: input.active,
+    description: input.description ?? null,
+    images: input.images ?? [],
+    show_in_catalog: input.show_in_catalog ?? true,
+    featured: input.featured ?? false,
+    is_new: input.is_new ?? false,
   };
+
   if (input.id) {
     const res = await db.from("products").update(payload).eq("id", input.id).select().single();
     if (res.error) throw new Error(res.error.message);
