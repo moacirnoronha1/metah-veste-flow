@@ -15,6 +15,7 @@ import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminClientesRouteImport } from './routes/admin/clientes'
 import { Route as AdminEstoqueRouteImport } from './routes/admin/estoque'
+import { Route as AdminPedidosRouteImport } from './routes/admin/pedidos'
 import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
 import { Route as AdminVendasRouteImport } from './routes/admin/vendas'
 import { Route as ApiPublicFotoSplatRouteImport } from './routes/api/public/foto.$'
@@ -49,6 +50,11 @@ const AdminEstoqueRoute = AdminEstoqueRouteImport.update({
   path: '/estoque',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminPedidosRoute = AdminPedidosRouteImport.update({
+  id: '/pedidos',
+  path: '/pedidos',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminRelatoriosRoute = AdminRelatoriosRouteImport.update({
   id: '/relatorios',
   path: '/relatorios',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
+  '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
   '/admin/vendas': typeof AdminVendasRoute
   '/admin/': typeof AdminIndexRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
+  '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
   '/admin/vendas': typeof AdminVendasRoute
   '/admin': typeof AdminIndexRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/entrar': typeof EntrarRoute
   '/admin/clientes': typeof AdminClientesRoute
   '/admin/estoque': typeof AdminEstoqueRoute
+  '/admin/pedidos': typeof AdminPedidosRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
   '/admin/vendas': typeof AdminVendasRoute
   '/admin/': typeof AdminIndexRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/entrar'
     | '/admin/clientes'
     | '/admin/estoque'
+    | '/admin/pedidos'
     | '/admin/relatorios'
     | '/admin/vendas'
     | '/admin/'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/entrar'
     | '/admin/clientes'
     | '/admin/estoque'
+    | '/admin/pedidos'
     | '/admin/relatorios'
     | '/admin/vendas'
     | '/admin'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/entrar'
     | '/admin/clientes'
     | '/admin/estoque'
+    | '/admin/pedidos'
     | '/admin/relatorios'
     | '/admin/vendas'
     | '/admin/'
@@ -184,6 +196,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEstoqueRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/pedidos': {
+      id: '/admin/pedidos'
+      path: '/pedidos'
+      fullPath: '/admin/pedidos'
+      preLoaderRoute: typeof AdminPedidosRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/relatorios': {
       id: '/admin/relatorios'
       path: '/relatorios'
@@ -211,6 +230,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteRouteChildren {
   AdminClientesRoute: typeof AdminClientesRoute
   AdminEstoqueRoute: typeof AdminEstoqueRoute
+  AdminPedidosRoute: typeof AdminPedidosRoute
   AdminRelatoriosRoute: typeof AdminRelatoriosRoute
   AdminVendasRoute: typeof AdminVendasRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -219,6 +239,7 @@ interface AdminRouteRouteChildren {
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminClientesRoute: AdminClientesRoute,
   AdminEstoqueRoute: AdminEstoqueRoute,
+  AdminPedidosRoute: AdminPedidosRoute,
   AdminRelatoriosRoute: AdminRelatoriosRoute,
   AdminVendasRoute: AdminVendasRoute,
   AdminIndexRoute: AdminIndexRoute,
