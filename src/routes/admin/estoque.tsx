@@ -71,7 +71,8 @@ function EstoquePage() {
   const products = useQuery({ queryKey: ["products"], queryFn: fetchProducts });
   const movements = useQuery({ queryKey: ["movements"], queryFn: () => fetchMovements() });
 
-  const [tab, setTab] = useState<"produtos" | "historico">("produtos");
+  const [tab, setTab] = useState<"produtos" | "ordem" | "historico">("produtos");
+  const [orderIds, setOrderIds] = useState<string[] | null>(null);
   const [search, setSearch] = useState("");
   const [form, setForm] = useState(emptyProduct);
   const [formOpen, setFormOpen] = useState(false);
