@@ -288,6 +288,7 @@ function Lightbox({
     if (pointers.current.size === 2 && gesture.current) {
       // Pinch zoom + pan
       const [a, b] = [...pointers.current.values()];
+      if (!a || !b) return;
       const dist = Math.hypot(a.x - b.x, a.y - b.y);
       const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
       const next = Math.min(

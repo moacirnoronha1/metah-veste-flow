@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { ShopShell } from "@/components/ShopShell";
 import { Btn, Chip, Tag } from "@/components/kit";
 import { getCatalogProduct } from "@/lib/catalog.functions";
+import { ProductGallery } from "@/components/ProductGallery";
 import { brl } from "@/lib/format";
 import { cart } from "@/lib/cart";
 
