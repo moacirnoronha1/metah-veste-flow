@@ -18,9 +18,11 @@ export function ReorderList({
   const dragId = useRef<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
 
+  const signature = items.map((i) => i.id).join("|");
   useEffect(() => {
     setOrder(items);
-  }, [items]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [signature]);
 
   function move(from: number, to: number) {
     if (to < 0 || to >= order.length || from === to) return;
